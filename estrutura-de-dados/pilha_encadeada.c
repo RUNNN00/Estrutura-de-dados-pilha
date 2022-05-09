@@ -1,5 +1,8 @@
 #include "pilha.h"
 
+/**********************************************
+* Dados
+*/
 typedef struct no
 {
     TipoElemento dado;
@@ -12,6 +15,18 @@ struct pilha
     int qtdeElemento;
 };
 
+/***********************************************
+* Funções auxiliares
+*/
+No* clone_No(No* node)
+{
+    
+}
+
+
+/***********************************************
+* Implementação
+*/
 Pilha *pilha_criar()
 {
     Pilha *p = (Pilha *)malloc(sizeof(Pilha));
@@ -61,4 +76,41 @@ void pilha_imprimir(Pilha *p)
         aux = aux->prox;
     }
     printf("]\n");
+}
+
+bool pilha_topo(Pilha* p, TipoElemento* saida)
+{
+    if (p->topo == NULL)
+        return false;
+    
+    *saida = p->topo->dado;
+
+    return true;
+}
+
+bool pilha_vazia(Pilha* p)
+{
+    if (p->qtdeElemento <= 0)
+        return true;
+
+    return false;
+}
+
+int pilha_tamanho(Pilha* p)
+{
+    return p->qtdeElemento;
+}
+
+Pilha* pilha_clone(Pilha* p)
+{
+    Pilha* stack = (Pilha*) malloc(sizeof(Pilha));
+    stack->qtdeElemento = 0;
+    stack->topo = p->topo;
+
+    No* aux = p->topo;
+    while (aux != NULL)
+    {
+
+    }
+
 }
