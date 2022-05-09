@@ -12,12 +12,14 @@ int main()
     pilha_desempilhar(pilha, &n);
     pilha_empilhar(pilha, 50);
 
+    Pilha* pilha2 = pilha_clone(pilha);
+
     // imprimir o topo
     int top = 0;
-    pilha_topo(pilha, &top);
+    pilha_topo(pilha2, &top);
     printf("Topo %d\n", top);
 
-    pilha_imprimir(pilha);
+    pilha_imprimir(pilha2);
     printf("%d\n", n);
 
     return 0;

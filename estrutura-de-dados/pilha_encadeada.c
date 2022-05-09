@@ -18,10 +18,6 @@ struct pilha
 /***********************************************
 * Funções auxiliares
 */
-No* clone_No(No* node)
-{
-    
-}
 
 
 /***********************************************
@@ -103,14 +99,6 @@ int pilha_tamanho(Pilha* p)
 
 Pilha* pilha_clone(Pilha* p)
 {
-    Pilha* stack = (Pilha*) malloc(sizeof(Pilha));
-    stack->qtdeElemento = 0;
-    stack->topo = p->topo;
-
-    No* aux = p->topo;
-    while (aux != NULL)
-    {
-
-    }
-
+    Pilha* clone = (Pilha*) malloc(sizeof(Pilha));
+    // TODO resolver isso aqui
 }
