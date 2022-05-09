@@ -34,6 +34,18 @@ Pilha *pilha_criar()
 
 void pilha_destruir(Pilha **endereco)
 {
+    Pilha* p = *endereco;
+
+    No* aux = p->topo;
+    No* aux2 = NULL;
+    while(aux != NULL)
+    {
+        aux2 = aux->prox;
+        free(aux);
+        aux = aux2;
+    }
+    free(p);
+    *endereco = NULL;
 }
 
 bool pilha_empilhar(Pilha *p, TipoElemento elemento)
@@ -99,6 +111,26 @@ int pilha_tamanho(Pilha* p)
 
 Pilha* pilha_clone(Pilha* p)
 {
-    Pilha* clone = (Pilha*) malloc(sizeof(Pilha));
-    // TODO resolver isso aqui
+    Pilha* clone = pilha_criar();
+    No* aux = clone->topo;
+    while(aux != NULL)
+    {
+        pilha_empilhar(clone, aux->dado);
+        aux = aux->prox;
+    }
+    pilha_inverter(clone);
+
+    return clone;
+}
+
+void pilha_inverter(Pilha* p)
+{
+    Pilha* invertida = pilha_criar();
+    No* aux = p->topo;
+    while(aux != NULL)
+    {
+        pilha_empilhar(invertida, aux->dado);
+        aux = aux->prox;
+    }
+    p = invertida;
 }
