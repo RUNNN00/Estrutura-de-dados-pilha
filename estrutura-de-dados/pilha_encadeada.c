@@ -70,6 +70,7 @@ bool pilha_desempilhar(Pilha* p, TipoElemento* saida)
     *saida = old->dado;
     p->topo = old->prox;
     free(old);
+    p->qtdeElemento--;
 }
 
 void pilha_imprimir(Pilha *p)
@@ -112,18 +113,18 @@ int pilha_tamanho(Pilha* p)
 Pilha* pilha_clone(Pilha* p)
 {
     Pilha* clone = pilha_criar();
-    No* aux = clone->topo;
+    No* aux = p->topo;
     while(aux != NULL)
     {
         pilha_empilhar(clone, aux->dado);
         aux = aux->prox;
     }
     pilha_inverter(clone);
-
+    
     return clone;
 }
 
-void pilha_inverter(Pilha* p)
+void pilha_inverter(Pilha *p)
 {
     Pilha* invertida = pilha_criar();
     No* aux = p->topo;
@@ -132,5 +133,9 @@ void pilha_inverter(Pilha* p)
         pilha_empilhar(invertida, aux->dado);
         aux = aux->prox;
     }
-    p = invertida;
+
+    aux = p->topo;
+    p->topo = invertida->topo;
+    invertida->topo = aux;
+    pilha_destruir(&invertida);
 }
