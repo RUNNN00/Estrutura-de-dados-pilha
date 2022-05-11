@@ -1,4 +1,5 @@
 #include "pilha.h"
+#include <string.h>
 
 /**********************************************
  * Dados
@@ -149,6 +150,28 @@ bool pilha_empilharTodos(Pilha *p, TipoElemento *vetor, int tamVetor)
         if (!pilha_empilhar(p, vetor[i]))
             return false;
     }
+
+    return true;
+}
+
+bool pilha_toString(Pilha* p, char* str)
+{
+    if (p == NULL)
+        return false;
+
+    str[0] = '\0';
+    strcat(str, "[");
+    No* aux = p->topo;
+    char straux[50];
+    while (aux != NULL)
+    {
+        sprintf(straux, "%d", aux->dado);
+        strcat(str, straux);
+        if (aux->prox != NULL)
+            strcat(str, ",");
+        aux = aux->prox;
+    }
+    strcat(str, "]");
 
     return true;
 }

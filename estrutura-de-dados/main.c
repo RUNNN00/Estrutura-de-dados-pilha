@@ -50,7 +50,9 @@ int main()
     printf("\nvetor em pilha:\n");
     pilha_imprimir(pilhaVetor); // vetor em pilha
 
-    
+    char stringPilha[100];
+    pilha_toString(pilha, stringPilha);
+    printf("\npilha invertida em toString:\n%s\n", stringPilha); // pilha em toString
     printf("\n");
 
     return 0;
