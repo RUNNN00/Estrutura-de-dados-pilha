@@ -1,8 +1,8 @@
 #include "pilha.h"
 
 /**********************************************
-* Dados
-*/
+ * Dados
+ */
 typedef struct no
 {
     TipoElemento dado;
@@ -16,13 +16,12 @@ struct pilha
 };
 
 /***********************************************
-* Funções auxiliares
-*/
-
+ * Funções auxiliares
+ */
 
 /***********************************************
-* Implementação
-*/
+ * Implementação
+ */
 Pilha *pilha_criar()
 {
     Pilha *p = (Pilha *)malloc(sizeof(Pilha));
@@ -34,11 +33,11 @@ Pilha *pilha_criar()
 
 void pilha_destruir(Pilha **endereco)
 {
-    Pilha* p = *endereco;
+    Pilha *p = *endereco;
 
-    No* aux = p->topo;
-    No* aux2 = NULL;
-    while(aux != NULL)
+    No *aux = p->topo;
+    No *aux2 = NULL;
+    while (aux != NULL)
     {
         aux2 = aux->prox;
         free(aux);
@@ -64,7 +63,7 @@ bool pilha_empilhar(Pilha *p, TipoElemento elemento)
     return true;
 }
 
-bool pilha_desempilhar(Pilha* p, TipoElemento* saida)
+bool pilha_desempilhar(Pilha *p, TipoElemento *saida)
 {
     No *old = p->topo;
     *saida = old->dado;
@@ -87,17 +86,17 @@ void pilha_imprimir(Pilha *p)
     printf("]\n");
 }
 
-bool pilha_topo(Pilha* p, TipoElemento* saida)
+bool pilha_topo(Pilha *p, TipoElemento *saida)
 {
     if (p->topo == NULL)
         return false;
-    
+
     *saida = p->topo->dado;
 
     return true;
 }
 
-bool pilha_vazia(Pilha* p)
+bool pilha_vazia(Pilha *p)
 {
     if (p->qtdeElemento <= 0)
         return true;
@@ -105,30 +104,30 @@ bool pilha_vazia(Pilha* p)
     return false;
 }
 
-int pilha_tamanho(Pilha* p)
+int pilha_tamanho(Pilha *p)
 {
     return p->qtdeElemento;
 }
 
-Pilha* pilha_clone(Pilha* p)
+Pilha *pilha_clone(Pilha *p)
 {
-    Pilha* clone = pilha_criar();
-    No* aux = p->topo;
-    while(aux != NULL)
+    Pilha *clone = pilha_criar();
+    No *aux = p->topo;
+    while (aux != NULL)
     {
         pilha_empilhar(clone, aux->dado);
         aux = aux->prox;
     }
     pilha_inverter(clone);
-    
+
     return clone;
 }
 
 void pilha_inverter(Pilha *p)
 {
-    Pilha* invertida = pilha_criar();
-    No* aux = p->topo;
-    while(aux != NULL)
+    Pilha *invertida = pilha_criar();
+    No *aux = p->topo;
+    while (aux != NULL)
     {
         pilha_empilhar(invertida, aux->dado);
         aux = aux->prox;
@@ -138,4 +137,18 @@ void pilha_inverter(Pilha *p)
     p->topo = invertida->topo;
     invertida->topo = aux;
     pilha_destruir(&invertida);
+}
+
+bool pilha_empilharTodos(Pilha *p, TipoElemento *vetor, int tamVetor)
+{
+    if (p == NULL)
+        return false;
+
+    for (int i = 0; i < tamVetor; i++)
+    {
+        if (!pilha_empilhar(p, vetor[i]))
+            return false;
+    }
+
+    return true;
 }

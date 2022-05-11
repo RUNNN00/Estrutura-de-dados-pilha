@@ -9,7 +9,7 @@ int main()
     pilha_empilhar(pilha, 20);
     pilha_empilhar(pilha, 30);
     pilha_empilhar(pilha, 40);
-    
+
     printf("\n");
     pilha_imprimir(pilha); // pilha original
 
@@ -36,6 +36,21 @@ int main()
     printf("\npilha clone modificada:\n");
     pilha_empilhar(pilha2, -10);
     pilha_imprimir(pilha2); // pilha clone modificada
+
+    printf("\nvetor:\n");
+    int vetor[] = {00, 01, 02, 03, 04};
+    for (int i = 0; i < 5; i++)
+    {
+        printf("%d", vetor[i]);
+        if (i < 4)
+            printf(",");
+    }
+    Pilha* pilhaVetor = pilha_criar();
+    pilha_empilharTodos(pilhaVetor, vetor, 5);
+    printf("\nvetor em pilha:\n");
+    pilha_imprimir(pilhaVetor); // vetor em pilha
+
+    
     printf("\n");
 
     return 0;
