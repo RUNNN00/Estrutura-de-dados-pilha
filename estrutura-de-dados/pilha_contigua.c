@@ -2,7 +2,7 @@
 
 #define TAM_INICIAL 5
 
-/**************************************
+/*************************************
  * DADOS */
 struct pilha
 {
@@ -11,7 +11,7 @@ struct pilha
 	int qtdeElementos;
 };
 
-/**************************************
+/*************************************
  * FUNÇÕES AUXILIARES */
 int *vetor_criar(int tam)
 {
@@ -36,7 +36,7 @@ bool vetor_copia(int* origem, int* saida, int tamOrigem, int tamSaida)
 	return true;
 }
 
-/**************************************
+/*************************************
  * IMPLEMENTAÇÃO */
 // Desenvolva as funções
 Pilha *pilha_criar()
