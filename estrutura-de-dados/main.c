@@ -9,11 +9,12 @@ int main()
     pilha_empilhar(pilha, 20);
     pilha_empilhar(pilha, 30);
     pilha_empilhar(pilha, 40);
+    pilha_empilhar(pilha, 50);
 
     printf("\n");
     pilha_imprimir(pilha); // pilha original
 
-    pilha_desempilhar(pilha, &n);
+    /*pilha_desempilhar(pilha, &n);
     pilha_imprimir(pilha); // pilha com dado desimpilhado
     printf("dado desimpilhado: %d\n", n);
     
@@ -53,7 +54,7 @@ int main()
     char stringPilha[100];
     pilha_toString(pilha, stringPilha);
     printf("\npilha invertida em toString:\n%s\n", stringPilha); // pilha em toString
-    printf("\n");
+    printf("\n");*/
 
     return 0;
 }
