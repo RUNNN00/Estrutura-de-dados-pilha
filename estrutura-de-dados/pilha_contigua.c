@@ -23,7 +23,7 @@ void vetor_destruir(int **vet)
 	free(*vet);
 }
 
-bool vetor_copia(int* origem, int* saida, int tamOrigem, int tamSaida)
+bool vetor_copia(int *origem, int *saida, int tamOrigem, int tamSaida)
 {
 	if (tamOrigem == 0 || tamSaida == 0)
 		return false;
@@ -34,6 +34,11 @@ bool vetor_copia(int* origem, int* saida, int tamOrigem, int tamSaida)
 	}
 
 	return true;
+}
+
+int vetor_espacoVazio(int tam, int qtdElemento)
+{
+	return tam - qtdElemento;
 }
 
 /*************************************
@@ -49,10 +54,18 @@ Pilha *pilha_criar()
 	return p;
 }
 
-void pilha_destruir(Pilha **endereco);
+void pilha_destruir(Pilha **endereco)
+{
+	Pilha *p = *endereco;
+	free(p->vetor);
+	p->vetor = NULL;
+	free(p);
+	p = NULL;
+}
+
 bool pilha_empilhar(Pilha *p, TipoElemento elemento)
 {
-	if (p->qtdeElementos >= p->tamVetor)
+	if (vetor_espacoVazio(p->tamVetor, p->qtdeElementos) <= 0)
 	{
 		int tamDobrado = p->tamVetor * 2;
 		int *vetorDobrado = vetor_criar(tamDobrado);
@@ -72,20 +85,42 @@ bool pilha_empilhar(Pilha *p, TipoElemento elemento)
 	return true;
 }
 
-bool pilha_desempilhar(Pilha *p, TipoElemento *saida);
+bool pilha_desempilhar(Pilha *p, TipoElemento *saida)
+{
+	if (p->qtdeElementos == 0)
+		return false;
+
+	p->qtdeElementos--;
+	*saida = p->vetor[p->qtdeElementos];
+	p->vetor[p->qtdeElementos] = 0;
+
+	int halfTam = p->tamVetor / 2;
+	if (p->qtdeElementos <= halfTam)
+	{
+		int *vetorHalf = vetor_criar(halfTam);
+		vetor_copia(p->vetor, vetorHalf, p->tamVetor, halfTam);
+		vetor_destruir(&(p->vetor));
+		p->vetor = vetorHalf;
+		p->tamVetor = halfTam;
+	}
+
+	return true;
+}
+
 bool pilha_topo(Pilha *p, TipoElemento *saida);
 bool pilha_vazia(Pilha *p);
 void pilha_imprimir(Pilha *p)
 {
 	printf("[");
-	for (int i = 0; i < p->qtdeElementos; i++)
+	for (int i = 0; i < p->tamVetor; i++)
 	{
 		printf("%d", p->vetor[i]);
-		if (i < p->qtdeElementos - 1)
+		if (i < p->tamVetor - 1)
 			printf(",");
 	}
 	printf("]\n");
 }
+
 int pilha_tamanho(Pilha *p);
 Pilha *pilha_clone(Pilha *p);
 void pilha_inverter(Pilha *p);

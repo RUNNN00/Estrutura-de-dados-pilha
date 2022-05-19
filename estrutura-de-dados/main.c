@@ -2,7 +2,7 @@
 
 int main()
 {
-    Pilha* pilha = pilha_criar();
+    Pilha *pilha = pilha_criar();
     int n = 0;
 
     pilha_empilhar(pilha, 10);
@@ -14,11 +14,11 @@ int main()
     printf("\n");
     pilha_imprimir(pilha); // pilha original
 
-    /*pilha_desempilhar(pilha, &n);
+    pilha_desempilhar(pilha, &n);
     pilha_imprimir(pilha); // pilha com dado desimpilhado
     printf("dado desimpilhado: %d\n", n);
-    
-    printf("\nPilha normal: \n");
+
+    /*rintf("\nPilha normal: \n");
     pilha_empilhar(pilha, 50);
     pilha_imprimir(pilha); // pilha normal
 
