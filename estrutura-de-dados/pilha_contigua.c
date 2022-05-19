@@ -18,11 +18,6 @@ int *vetor_criar(int tam)
 	return (int *)calloc(tam, sizeof(int));
 }
 
-void vetor_destruir(int **vet)
-{
-	free(*vet);
-}
-
 bool vetor_copia(int *origem, int *saida, int tamOrigem, int tamSaida)
 {
 	if (tamOrigem == 0 || tamSaida == 0)
@@ -36,9 +31,9 @@ bool vetor_copia(int *origem, int *saida, int tamOrigem, int tamSaida)
 	return true;
 }
 
-int vetor_espacoVazio(int tam, int qtdElemento)
+bool pilha_cheia(Pilha *p)
 {
-	return tam - qtdElemento;
+	return p->qtdeElementos == p->tamVetor;
 }
 
 /*************************************
@@ -60,21 +55,23 @@ void pilha_destruir(Pilha **endereco)
 	free(p->vetor);
 	p->vetor = NULL;
 	free(p);
-	p = NULL;
+	*endereco = NULL;
 }
 
 bool pilha_empilhar(Pilha *p, TipoElemento elemento)
 {
-	if (vetor_espacoVazio(p->tamVetor, p->qtdeElementos) <= 0)
+	if (pilha_cheia(p))
 	{
+		printf("antes do calloc\n");
 		int tamDobrado = p->tamVetor * 2;
 		int *vetorDobrado = vetor_criar(tamDobrado);
+		printf("depois do calloc\n");
 
 		if (vetorDobrado == NULL)
 			return false;
 
 		vetor_copia(p->vetor, vetorDobrado, p->tamVetor, tamDobrado);
-		vetor_destruir(&(p->vetor));
+		free(p->vetor);
 		p->vetor = vetorDobrado;
 		p->tamVetor = tamDobrado;
 	}
@@ -99,7 +96,7 @@ bool pilha_desempilhar(Pilha *p, TipoElemento *saida)
 	{
 		int *vetorHalf = vetor_criar(halfTam);
 		vetor_copia(p->vetor, vetorHalf, p->tamVetor, halfTam);
-		vetor_destruir(&(p->vetor));
+		free(p->vetor);
 		p->vetor = vetorHalf;
 		p->tamVetor = halfTam;
 	}
