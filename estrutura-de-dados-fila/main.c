@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "fila.h";
+#include "fila.h"
 
 int main()
 {
@@ -11,13 +11,16 @@ int main()
     /**************************************
      * Teste insercao e primeiro
      **************************************/
+    printf("\n");
     Fila *f1 = fila_criar();
     fila_inserir(f1, 10);
     fila_inserir(f1, 20);
     fila_inserir(f1, 30);
-    fila_toString(f1, str);
+    //fila_toString(f1, str);
+    fila_imprimir(f1);
+    printf("\n");
 
-    fila_primeiro(f1, &elemento);
+    //fila_primeiro(f1, &elemento);
 
     /**************************************
      * Teste remocao
