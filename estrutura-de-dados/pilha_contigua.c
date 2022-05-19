@@ -94,7 +94,7 @@ bool pilha_desempilhar(Pilha *p, TipoElemento *saida)
 	*saida = p->vetor[p->qtdeElementos];
 	p->vetor[p->qtdeElementos] = 0;
 
-	int halfTam = p->tamVetor / 2;
+	int halfTam = (int)p->tamVetor / 2;
 	if (p->qtdeElementos <= halfTam)
 	{
 		int *vetorHalf = vetor_criar(halfTam);
@@ -107,8 +107,24 @@ bool pilha_desempilhar(Pilha *p, TipoElemento *saida)
 	return true;
 }
 
-bool pilha_topo(Pilha *p, TipoElemento *saida);
-bool pilha_vazia(Pilha *p);
+bool pilha_topo(Pilha *p, TipoElemento *saida)
+{
+	if (p->qtdeElementos == 0)
+		return false;
+
+	*saida = p->vetor[p->qtdeElementos - 1];
+
+	return false;
+}
+
+bool pilha_vazia(Pilha *p)
+{
+	if (p->qtdeElementos == 0)
+		return true;
+
+	return false;
+}
+
 void pilha_imprimir(Pilha *p)
 {
 	printf("[");
@@ -121,8 +137,23 @@ void pilha_imprimir(Pilha *p)
 	printf("]\n");
 }
 
-int pilha_tamanho(Pilha *p);
-Pilha *pilha_clone(Pilha *p);
+int pilha_tamanho(Pilha *p)
+{
+	return p->qtdeElementos;
+}
+
+Pilha *pilha_clone(Pilha *p)
+{
+	Pilha *clone = pilha_criar();
+
+	for (int i = 0; i < p->qtdeElementos; i++)
+	{
+		pilha_empilhar(clone, p->vetor[i]);
+	}
+
+	return clone;
+}
+
 void pilha_inverter(Pilha *p);
 bool pilha_empilharTodos(Pilha *p, TipoElemento *vetor, int tamVetor);
 bool pilha_toString(Pilha *f, char *str);

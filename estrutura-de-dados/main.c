@@ -14,23 +14,29 @@ int main()
     printf("\n");
     pilha_imprimir(pilha); // pilha original
 
+    printf("\n");
     pilha_desempilhar(pilha, &n);
     pilha_imprimir(pilha); // pilha com dado desimpilhado
     printf("dado desimpilhado: %d\n", n);
 
-    /*rintf("\nPilha normal: \n");
-    pilha_empilhar(pilha, 50);
+    pilha_topo(pilha, &n);
+    printf("\nPilha topo: %d\n", n);
+
+    printf("\nTamanho pilha: %d\n", pilha_tamanho(pilha));
+
+    printf("\nPilha normal:\n");
+    pilha_empilhar(pilha, 60);
     pilha_imprimir(pilha); // pilha normal
 
-    printf("\npilha invertida:\n");
+    /*printf("\npilha invertida:\n");
     pilha_inverter(pilha);
-    pilha_imprimir(pilha); // pilha invertida
+    pilha_imprimir(pilha); // pilha invertida*/
 
     printf("\npilha clone: \n");
     Pilha* pilha2 = pilha_clone(pilha);
     pilha_imprimir(pilha2); // pilha clone
 
-    printf("\npilha invertida modificada:\n");
+    /*printf("\npilha invertida modificada:\n");
     pilha_empilhar(pilha, 60);
     pilha_imprimir(pilha); // pilha invertida modificada
 
