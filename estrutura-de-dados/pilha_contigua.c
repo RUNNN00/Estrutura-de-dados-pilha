@@ -134,6 +134,18 @@ Pilha *pilha_clone(Pilha *p)
 	return clone;
 }
 
-void pilha_inverter(Pilha *p);
+void pilha_inverter(Pilha *p)
+{
+	Pilha* aux = pilha_criar();
+
+	for (int i = p->qtdeElementos - 1; i >= 0; i--)
+	{
+		pilha_empilhar(aux, p->vetor[i]);
+	}
+
+	free(p->vetor);
+	p->vetor = aux->vetor;
+}
+
 bool pilha_empilharTodos(Pilha *p, TipoElemento *vetor, int tamVetor);
 bool pilha_toString(Pilha *f, char *str);

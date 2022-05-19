@@ -28,15 +28,15 @@ int main()
     pilha_empilhar(pilha, 60);
     pilha_imprimir(pilha); // pilha normal
 
-    /*printf("\npilha invertida:\n");
+    printf("\npilha invertida:\n");
     pilha_inverter(pilha);
-    pilha_imprimir(pilha); // pilha invertida*/
+    pilha_imprimir(pilha); // pilha invertida
 
     printf("\npilha clone: \n");
     Pilha* pilha2 = pilha_clone(pilha);
     pilha_imprimir(pilha2); // pilha clone
 
-    /*printf("\npilha invertida modificada:\n");
+    printf("\npilha invertida modificada:\n");
     pilha_empilhar(pilha, 60);
     pilha_imprimir(pilha); // pilha invertida modificada
 
@@ -44,7 +44,7 @@ int main()
     pilha_empilhar(pilha2, -10);
     pilha_imprimir(pilha2); // pilha clone modificada
 
-    printf("\nvetor:\n");
+    /*printf("\nvetor:\n");
     int vetor[] = {00, 01, 02, 03, 04};
     for (int i = 0; i < 5; i++)
     {
