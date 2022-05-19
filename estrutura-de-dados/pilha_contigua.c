@@ -1,4 +1,5 @@
 #include "pilha.h"
+#include <string.h>
 
 #define TAM_INICIAL 5
 
@@ -13,27 +14,33 @@ struct pilha
 
 /*************************************
  * FUNÇÕES AUXILIARES */
-int *vetor_criar(int tam)
-{
-	return (int *)calloc(tam, sizeof(int));
-}
-
-bool vetor_copia(int *origem, int *saida, int tamOrigem, int tamSaida)
-{
-	if (tamOrigem == 0 || tamSaida == 0)
-		return false;
-
-	for (int i = 0; i < tamOrigem; i++)
-	{
-		saida[i] = origem[i];
-	}
-
-	return true;
-}
-
 bool pilha_cheia(Pilha *p)
 {
 	return p->qtdeElementos == p->tamVetor;
+}
+
+bool verifica_aumentaDiminui(Pilha *p)
+{
+	int novoTam = 0;
+
+	if (p->qtdeElementos == p->tamVetor)
+		novoTam = p->tamVetor * 2;
+	else if (p->tamVetor > 4 && p->qtdeElementos <= p->tamVetor / 2)
+		novoTam = p->tamVetor / 2;
+	else
+		return false;
+
+	int *novoVetor = (int *)calloc(novoTam, sizeof(int));
+
+	if (novoVetor == NULL)
+		return false;
+
+	memcpy(novoVetor, p->vetor, p->qtdeElementos * sizeof(int));
+	free(p->vetor);
+	p->vetor = novoVetor;
+	p->tamVetor = novoTam;
+
+	return true;
 }
 
 /*************************************
@@ -44,7 +51,7 @@ Pilha *pilha_criar()
 	Pilha *p = (Pilha *)malloc(sizeof(Pilha));
 	p->qtdeElementos = 0;
 	p->tamVetor = 4;
-	p->vetor = vetor_criar(4);
+	p->vetor = (int *)calloc(4, sizeof(int));
 
 	return p;
 }
@@ -60,22 +67,7 @@ void pilha_destruir(Pilha **endereco)
 
 bool pilha_empilhar(Pilha *p, TipoElemento elemento)
 {
-	if (pilha_cheia(p))
-	{
-		printf("antes do calloc\n");
-		int tamDobrado = p->tamVetor * 2;
-		int *vetorDobrado = vetor_criar(tamDobrado);
-		printf("depois do calloc\n");
-
-		if (vetorDobrado == NULL)
-			return false;
-
-		vetor_copia(p->vetor, vetorDobrado, p->tamVetor, tamDobrado);
-		free(p->vetor);
-		p->vetor = vetorDobrado;
-		p->tamVetor = tamDobrado;
-	}
-
+	verifica_aumentaDiminui(p);
 	p->vetor[p->qtdeElementos] = elemento;
 	p->qtdeElementos++;
 
@@ -90,16 +82,7 @@ bool pilha_desempilhar(Pilha *p, TipoElemento *saida)
 	p->qtdeElementos--;
 	*saida = p->vetor[p->qtdeElementos];
 	p->vetor[p->qtdeElementos] = 0;
-
-	int halfTam = (int)p->tamVetor / 2;
-	if (p->qtdeElementos <= halfTam)
-	{
-		int *vetorHalf = vetor_criar(halfTam);
-		vetor_copia(p->vetor, vetorHalf, p->tamVetor, halfTam);
-		free(p->vetor);
-		p->vetor = vetorHalf;
-		p->tamVetor = halfTam;
-	}
+	verifica_aumentaDiminui(p);
 
 	return true;
 }
