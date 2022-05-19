@@ -44,7 +44,7 @@ int main()
     pilha_empilhar(pilha2, -10);
     pilha_imprimir(pilha2); // pilha clone modificada
 
-    /*printf("\nvetor:\n");
+    printf("\nvetor:\n");
     int vetor[] = {00, 01, 02, 03, 04};
     for (int i = 0; i < 5; i++)
     {
@@ -60,7 +60,7 @@ int main()
     char stringPilha[100];
     pilha_toString(pilha, stringPilha);
     printf("\npilha invertida em toString:\n%s\n", stringPilha); // pilha em toString
-    printf("\n");*/
+    printf("\n");
 
     return 0;
 }
