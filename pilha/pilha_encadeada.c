@@ -1,9 +1,9 @@
-/*#include "pilha.h"
+#include "pilha.h"
 #include <string.h>
 
 /**********************************************
  * Dados
- * 
+ */
 typedef struct no
 {
     TipoElemento dado;
@@ -17,12 +17,8 @@ struct pilha
 };
 
 /***********************************************
- * Funções auxiliares
- */
-
-/***********************************************
  * Implementação
- *
+ */
 Pilha *pilha_criar()
 {
     Pilha *p = (Pilha *)malloc(sizeof(Pilha));
@@ -174,4 +170,4 @@ bool pilha_toString(Pilha* p, char* str)
     strcat(str, "]");
 
     return true;
-}*/
+}
