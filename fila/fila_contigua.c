@@ -78,9 +78,13 @@ bool fila_inserir(Fila *f, TipoElemento elemento)
     if (!fila_checaAumentaDiminui(f))
         return false;
 
-    f->vetor[f->qtdeElementos] = elemento;
+    f->vetor[f->fim] = elemento;
     f->qtdeElementos++;
-    f->fim = f->qtdeElementos;
+    f->fim++;
+
+    if (f->fim >= f->tamVetor)
+        f->fim = 0;
+
     return false;
 }
 
@@ -140,7 +144,7 @@ void fila_imprimir(Fila *f)
         index++;
     }
     printf("]\n");
-    /*printf("vetor completo: ");
+    printf("vetor completo: ");
     printf("[");
     for (int i = 0; i < f->tamVetor; i++)
     {
@@ -148,7 +152,7 @@ void fila_imprimir(Fila *f)
         if (i < f->tamVetor - 1)
             printf(",");
     }
-    printf("]\n");*/
+    printf("]\n");
     printf("ultimo dado: %d\n", f->vetor[(int)f->fim - 1]);
     printf("quantidade: %d\n", f->qtdeElementos);
 }
