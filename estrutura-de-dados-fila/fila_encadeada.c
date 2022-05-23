@@ -73,29 +73,10 @@ bool fila_remover(Fila *f, TipoElemento *saida) // estratégia do scanf
     if (fila_vazia(f))
         return false;
 
-    *saida = f->fim->dado;
-
-    if (f->qtde == 1)
-    {
-        free(f->fim);
-        f->fim = NULL;
-        f->inicio = NULL;
-        f->qtde--;
-        return true;
-    }
-
-    No *aux = f->inicio;
-    while (aux != NULL)
-    {
-        if (aux->prox == f->fim)
-        {
-            free(f->fim);
-            f->fim = aux;
-            aux->prox = NULL;
-        }
-        else
-            aux = aux->prox;
-    }
+    *saida = f->inicio->dado;
+    No* lixo = f->inicio;
+    f->inicio = f->inicio->prox;
+    free(lixo);
     f->qtde--;
     return true;
 }
