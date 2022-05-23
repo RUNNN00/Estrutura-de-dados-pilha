@@ -1,9 +1,9 @@
-#include "fila.h"
-#include <string.h>
+/*#include "fila.h"
+#include <string.h>*/
 
 /**************************************
  * DADOS
- **************************************/
+ **************************************
 typedef struct no
 {
     int dado;
@@ -19,7 +19,7 @@ struct fila
 
 /**************************************
  * IMPLEMENTAÇÃO
- **************************************/
+ **************************************
 Fila *fila_criar()
 {
     Fila *f = (Fila *)malloc(sizeof(Fila));

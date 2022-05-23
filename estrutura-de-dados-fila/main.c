@@ -16,8 +16,25 @@ int main()
     fila_inserir(f1, 10);
     fila_inserir(f1, 20);
     fila_inserir(f1, 30);
-    fila_toString(f1, str);
-    printf("%s\n", str);
+    fila_inserir(f1, 40);
+    fila_inserir(f1, 50);
+    fila_inserir(f1, 60);
+    fila_inserir(f1, 70);
+    fila_inserir(f1, 80);
+    fila_inserir(f1, 90);
+    fila_remover(f1, &elemento);
+    fila_remover(f1, &elemento);
+    fila_remover(f1, &elemento);
+    fila_remover(f1, &elemento);
+    fila_remover(f1, &elemento);
+    fila_remover(f1, &elemento);
+    fila_remover(f1, &elemento);
+    fila_remover(f1, &elemento);
+    fila_remover(f1, &elemento);
+    fila_inserir(f1, 10);
+    fila_imprimir(f1);
+    //fila_toString(f1, str);
+    //printf("%s\n", str);
 
     fila_primeiro(f1, &elemento);
     printf("primeiro dado: %d\n", elemento);
@@ -25,7 +42,7 @@ int main()
 
     /**************************************
      * Teste remocao
-     **************************************/
+     **************************************
     fila_remover(f1, &elemento);
     fila_imprimir(f1);
     printf("dado removido: %d\n", elemento);
@@ -49,7 +66,7 @@ int main()
 
     /**************************************
      * Teste inserir todos e clone
-     **************************************/
+     **************************************
     int vetor[12] = {1,2,3,4,5,6,7,8,9,10,11,12};
     f1 = fila_criar();
     fila_inserirTodos(f1, vetor, 12);
@@ -84,5 +101,5 @@ int main()
     printf("\n%s\n\n", str);
 
     fila_destruir(&f1);
-    fila_destruir(&f2);
+    fila_destruir(&f2);*/
 }
