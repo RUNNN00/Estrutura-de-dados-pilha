@@ -1,7 +1,7 @@
 #include "fila.h"
 #include <string.h>
 
-#define TAM_INICIAL 5
+#define TAM_INICIAL 8
 /**************************************
  * DADOS
  **************************************/
@@ -17,39 +17,20 @@ struct fila
 /**************************************
  * FUNÇÕES AUXILIARES
  **************************************/
-bool fila_checaAumentaDiminui(Fila *f)
+void realoca(Fila *f, int tamNovo)
 {
-    int tamNovo = 0;
-    TipoElemento *vetNovo = NULL;
-
-    if (f->qtdeElementos == f->tamVetor - 1)
-        tamNovo = f->tamVetor * 2;
-    else if (f->tamVetor / 2 >= 8 && f->qtdeElementos < f->tamVetor / 2)
-        tamNovo = f->tamVetor / 2;
-    else
-        return true;
-
-    vetNovo = (int *)calloc(tamNovo, sizeof(int));
-
-    if (vetNovo == NULL)
-        return false;
-
+    TipoElemento *vetorNovo = (int *)calloc(tamNovo, sizeof(int));
     int index = f->inicio;
     for (int i = 0; i < f->qtdeElementos; i++)
     {
-        if (index >= f->tamVetor)
-            index = 0;
-
-        vetNovo[i] = f->vetor[index];
-        index++;
+        vetorNovo[i] = f->vetor[index];
+        index = (index + 1) % f->tamVetor;
     }
-
     free(f->vetor);
-    f->vetor = vetNovo;
-    f->tamVetor = tamNovo;
+    f->vetor = vetorNovo;
     f->inicio = 0;
     f->fim = f->qtdeElementos;
-    return true;
+    f->tamVetor = tamNovo;
 }
 
 /**************************************
@@ -58,11 +39,11 @@ bool fila_checaAumentaDiminui(Fila *f)
 Fila *fila_criar()
 {
     Fila *f = (Fila *)malloc(sizeof(Fila));
-    f->vetor = (int *)calloc(8, sizeof(int));
+    f->vetor = (int *)calloc(TAM_INICIAL, sizeof(int));
     f->inicio = f->vetor[0];
     f->fim = f->vetor[0];
     f->qtdeElementos = 0;
-    f->tamVetor = 8;
+    f->tamVetor = TAM_INICIAL;
 }
 
 void fila_destruir(Fila **enderecoFila)
@@ -75,34 +56,29 @@ void fila_destruir(Fila **enderecoFila)
 
 bool fila_inserir(Fila *f, TipoElemento elemento)
 {
-    if (!fila_checaAumentaDiminui(f))
-        return false;
+    if (f->qtdeElementos >= f->tamVetor - 1)
+    {
+        int tam = f->tamVetor + TAM_INICIAL;
+        realoca(f, tam);
+    }
 
     f->vetor[f->fim] = elemento;
+    f->fim = (f->fim + 1) % f->tamVetor;
     f->qtdeElementos++;
-    f->fim++;
-
-    if (f->fim >= f->tamVetor)
-        f->fim = 0;
 
     return false;
 }
 
 bool fila_remover(Fila *f, TipoElemento *saida) // estratégia do scanf
 {
-    if (!fila_checaAumentaDiminui(f))
-        return false;
-
     *saida = f->vetor[f->inicio];
-    f->inicio++;
-    if (f->inicio >= f->tamVetor)
-        f->inicio = 0;
+    f->inicio = (f->inicio + 1) % f->tamVetor;
     f->qtdeElementos--;
 
-    if (f->qtdeElementos <= 0)
+    if (f->tamVetor - f->qtdeElementos > TAM_INICIAL)
     {
-        f->inicio = 0;
-        f->fim = 0;
+        int tam = f->tamVetor - TAM_INICIAL;
+        realoca(f, tam);
     }
 
     return true;
@@ -144,22 +120,11 @@ void fila_imprimir(Fila *f)
         index++;
     }
     printf("]\n");
-    printf("vetor completo: ");
-    printf("[");
-    for (int i = 0; i < f->tamVetor; i++)
-    {
-        printf("%d", f->vetor[i]);
-        if (i < f->tamVetor - 1)
-            printf(",");
-    }
-    printf("]\n");
-    printf("ultimo dado: %d\n", f->vetor[(int)f->fim - 1]);
-    printf("quantidade: %d\n", f->qtdeElementos);
 }
 
 Fila *fila_clone(Fila *f)
 {
-    Fila* clone = fila_criar();
+    Fila *clone = fila_criar();
 
     int index = f->inicio;
     for (int i = 0; i < f->qtdeElementos; i++)
@@ -209,6 +174,6 @@ bool fila_inserirTodos(Fila *f, TipoElemento *vetor, int tamVetor)
     {
         fila_inserir(f, vetor[i]);
     }
-    
+
     return true;
 }
