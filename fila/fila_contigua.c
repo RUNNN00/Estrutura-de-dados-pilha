@@ -17,9 +17,26 @@ struct fila
 /**************************************
  * FUNÇÕES AUXILIARES
  **************************************/
-void realoca(Fila *f, int tamNovo)
+bool filaValida(Fila *f)
 {
+    if (f == NULL)
+        return false;
+    if (f->vetor == NULL)
+        return false;
+
+    return true;
+}
+
+bool realoca(Fila *f, int tamNovo)
+{
+    if (!filaValida(f))
+        return false;
+
     TipoElemento *vetorNovo = (int *)calloc(tamNovo, sizeof(int));
+
+    if (vetorNovo == NULL)
+        return false;
+
     int index = f->inicio;
     for (int i = 0; i < f->qtdeElementos; i++)
     {
@@ -31,6 +48,7 @@ void realoca(Fila *f, int tamNovo)
     f->inicio = 0;
     f->fim = f->qtdeElementos;
     f->tamVetor = tamNovo;
+    return true;
 }
 
 /**************************************
@@ -48,6 +66,9 @@ Fila *fila_criar()
 
 void fila_destruir(Fila **enderecoFila)
 {
+    if (!filaValida(*enderecoFila))
+        return;
+
     Fila *f = *enderecoFila;
     free(f->vetor);
     free(f);
@@ -56,21 +77,30 @@ void fila_destruir(Fila **enderecoFila)
 
 bool fila_inserir(Fila *f, TipoElemento elemento)
 {
+    if (!filaValida(f))
+        return false;
+
     if (f->qtdeElementos >= f->tamVetor - 1)
     {
         int tam = f->tamVetor + TAM_INICIAL;
-        realoca(f, tam);
+        if (!realoca(f, tam))
+            return false;
     }
 
     f->vetor[f->fim] = elemento;
     f->fim = (f->fim + 1) % f->tamVetor;
     f->qtdeElementos++;
 
-    return false;
+    return true;
 }
 
 bool fila_remover(Fila *f, TipoElemento *saida) // estratégia do scanf
 {
+    if (!filaValida(f))
+        return false;
+    if (fila_vazia(f))
+        return false;
+
     *saida = f->vetor[f->inicio];
     f->inicio = (f->inicio + 1) % f->tamVetor;
     f->qtdeElementos--;
@@ -78,7 +108,8 @@ bool fila_remover(Fila *f, TipoElemento *saida) // estratégia do scanf
     if (f->tamVetor - f->qtdeElementos > TAM_INICIAL)
     {
         int tam = f->tamVetor - TAM_INICIAL;
-        realoca(f, tam);
+        if (!realoca(f, tam))
+            return false;
     }
 
     return true;
@@ -86,6 +117,8 @@ bool fila_remover(Fila *f, TipoElemento *saida) // estratégia do scanf
 
 bool fila_primeiro(Fila *f, TipoElemento *saida) // estratégia do scanf
 {
+    if (!filaValida(f))
+        return false;
     if (fila_vazia(f))
         return false;
 
@@ -105,6 +138,9 @@ int fila_tamanho(Fila *f)
 
 void fila_imprimir(Fila *f)
 {
+    if (!filaValida(f))
+        return;
+
     printf("vetor: ");
     printf("[");
     int index = f->inicio;
@@ -124,6 +160,9 @@ void fila_imprimir(Fila *f)
 
 Fila *fila_clone(Fila *f)
 {
+    if (!filaValida(f))
+        return NULL;
+
     Fila *clone = fila_criar();
 
     int index = f->inicio;
@@ -141,7 +180,9 @@ Fila *fila_clone(Fila *f)
 
 bool fila_toString(Fila *f, char *str)
 {
-    if (f->qtdeElementos <= 0)
+    if (!filaValida(f))
+        return false;
+    if (fila_vazia(f))
         return false;
 
     str[0] = '\0';
@@ -167,13 +208,13 @@ bool fila_toString(Fila *f, char *str)
 
 bool fila_inserirTodos(Fila *f, TipoElemento *vetor, int tamVetor)
 {
+    if (!filaValida(f))
+        return false;
     if (tamVetor <= 0)
         return false;
 
     for (int i = 0; i < tamVetor; i++)
-    {
         fila_inserir(f, vetor[i]);
-    }
 
     return true;
 }
