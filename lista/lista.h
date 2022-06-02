@@ -14,7 +14,7 @@ typedef struct no No;
 
 // FUNÇÕES
 Lista *lista_criar();
-void lista_destruir(Lista **l);
+void lista_destruir(Lista **endereco);
 bool lista_anexar(Lista *l, int elemento);
 bool lista_inserir(Lista *l, int posicao, int elemento);
 bool lista_removerPosicao(Lista *l, int *saida, int posicao);

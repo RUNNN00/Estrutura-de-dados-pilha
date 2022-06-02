@@ -18,6 +18,28 @@ struct no
 };
 
 // FUNCOES AUXILIARES
+No *noCriar(int elemento)
+{
+    No *new = (No *)malloc(sizeof(No));
+    new->dado = elemento;
+    new->prox = NULL;
+    new->ant = NULL;
+    return new;
+}
+
+No *noColetar(Lista *l, int posicao)
+{
+    No *aux = l->inicio;
+    int i = 0;
+    while (aux != NULL)
+    {
+        if (i == posicao)
+            return aux;
+        aux = aux->prox;
+        i++;
+    }
+    return NULL;
+}
 
 // IMPLEMENTAÇÃO
 Lista *lista_criar()
@@ -28,22 +50,22 @@ Lista *lista_criar()
     l->fim = NULL;
 }
 
-void lista_destruir(Lista **enderecoLista)
+void lista_destruir(Lista **endereco)
 {
-    if (*enderecoLista == NULL)
+    if (*endereco == NULL)
         return;
 
-    Lista* l = *enderecoLista;
-    No* aux = l->fim;
-    No* aux2 = NULL;
-    while(aux != NULL)
+    Lista *l = *endereco;
+    No *aux = NULL;
+    No *destruir = l->fim;
+    while (destruir != NULL)
     {
-        aux2 = aux->ant;
-        free(aux);
-        aux = aux2;
+        aux = destruir->ant;
+        free(destruir);
+        destruir = aux;
     }
     free(l);
-    *enderecoLista == NULL;
+    *endereco = NULL;
 }
 
 bool lista_anexar(Lista *l, int elemento)
@@ -51,9 +73,7 @@ bool lista_anexar(Lista *l, int elemento)
     if (l == NULL)
         return false;
 
-    No *new = (No *)malloc(sizeof(No));
-    new->dado = elemento;
-    new->prox = NULL;
+    No *new = noCriar(elemento);
 
     if (lista_vazia(l))
     {
@@ -68,6 +88,59 @@ bool lista_anexar(Lista *l, int elemento)
     l->fim->prox = new;
     l->fim = new;
     l->qtd++;
+    return true;
+}
+
+bool lista_inserir(Lista *l, int posicao, int elemento)
+{
+    if (l == NULL)
+        return false;
+    if (posicao > l->qtd || posicao < 0)
+        return false;
+    if (posicao == l->qtd)
+    {
+        lista_anexar(l, elemento);
+        return true;
+    }
+
+    No *new = noCriar(elemento);
+    No *selecionado = noColetar(l, posicao);
+
+    new->prox = selecionado;
+    new->ant = selecionado->ant;
+    if (selecionado->ant != NULL)
+        selecionado->ant->prox = new;
+    else
+        l->inicio = new;
+    selecionado->ant = new;
+    l->qtd++;
+
+    return true;
+}
+
+bool lista_removerPosicao(Lista *l, int *saida, int posicao)
+{
+    if (l == NULL)
+        return false;
+    if (lista_vazia(l))
+        return false;
+    if (posicao >= l->qtd || posicao < 0)
+        return false;
+
+    No *selecionado = noColetar(l, posicao);
+    *saida = selecionado->dado;
+
+    if (selecionado->ant != NULL)
+        selecionado->ant->prox = selecionado->prox;
+    else
+        l->inicio = selecionado->prox;
+
+    if (selecionado->prox != NULL)
+        selecionado->prox->ant = selecionado->ant;
+    else
+        l->fim = selecionado->ant;
+
+    free(selecionado);
     return true;
 }
 
