@@ -27,8 +27,11 @@ No *noCriar(int elemento)
     return new;
 }
 
-No *noColetar(Lista *l, int posicao)
+No *listaColetar(Lista *l, int posicao)
 {
+    if (posicao >= l->qtd)
+        return NULL;
+
     No *aux = l->inicio;
     int i = 0;
     while (aux != NULL)
@@ -39,6 +42,21 @@ No *noColetar(Lista *l, int posicao)
         i++;
     }
     return NULL;
+}
+
+void noDestruir(Lista *l, No *n)
+{
+    if (n->ant != NULL)
+        n->ant->prox = n->prox;
+    else
+        l->inicio = n->prox;
+
+    if (n->prox != NULL)
+        n->prox->ant = n->ant;
+    else
+        l->fim = n->ant;
+
+    free(n);
 }
 
 // IMPLEMENTAÇÃO
@@ -104,7 +122,10 @@ bool lista_inserir(Lista *l, int posicao, int elemento)
     }
 
     No *new = noCriar(elemento);
-    No *selecionado = noColetar(l, posicao);
+    No *selecionado = listaColetar(l, posicao);
+
+    if (selecionado == NULL)
+        return false;
 
     new->prox = selecionado;
     new->ant = selecionado->ant;
@@ -127,21 +148,89 @@ bool lista_removerPosicao(Lista *l, int *saida, int posicao)
     if (posicao >= l->qtd || posicao < 0)
         return false;
 
-    No *selecionado = noColetar(l, posicao);
+    No *selecionado = listaColetar(l, posicao);
+
+    if (selecionado == NULL)
+        return false;
+
     *saida = selecionado->dado;
-
-    if (selecionado->ant != NULL)
-        selecionado->ant->prox = selecionado->prox;
-    else
-        l->inicio = selecionado->prox;
-
-    if (selecionado->prox != NULL)
-        selecionado->prox->ant = selecionado->ant;
-    else
-        l->fim = selecionado->ant;
-
-    free(selecionado);
+    noDestruir(l, selecionado);
     return true;
+}
+
+int lista_removerElemento(Lista *l, int elemento)
+{
+    if (l == NULL)
+        return 0;
+    if (lista_vazia(l))
+        return 0;
+
+    No *selecionado = l->inicio;
+    while (selecionado != NULL)
+    {
+        if (elemento == selecionado->dado)
+            break;
+        selecionado = selecionado->prox;
+    }
+
+    noDestruir(l, selecionado);
+    return elemento;
+}
+
+bool lista_substituir(Lista *l, int posicao, int elemento)
+{
+    if (l == NULL)
+        return false;
+    if (lista_vazia(l))
+        return false;
+
+    No *selecionado = listaColetar(l, posicao);
+
+    if (selecionado == NULL)
+        return false;
+
+    selecionado->dado = elemento;
+    return true;
+}
+
+int lista_posicao(Lista *l, int elemento)
+{
+    if (l == NULL)
+        return -1;
+    if (lista_vazia(l))
+        return -1;
+
+    No *aux = l->inicio;
+    int i = 0;
+    while (aux != NULL)
+    {
+        if (aux->dado == elemento)
+            return i;
+        aux = aux->prox;
+        i++;
+    }
+    return -1;
+}
+
+bool lista_buscar(Lista *l, int posicao, TipoElemento *saida)
+{
+    if (l == NULL)
+        return false;
+    if (lista_vazia(l))
+        return false;
+
+    No *selecionado = listaColetar(l, posicao);
+
+    if (selecionado == NULL)
+        return false;
+
+    *saida = selecionado->dado;
+    return true;
+}
+
+int lista_tamanho(Lista *l)
+{
+    return l->qtd;
 }
 
 bool lista_toString(Lista *l, char *str)
