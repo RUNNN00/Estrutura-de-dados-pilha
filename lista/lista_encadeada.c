@@ -141,9 +141,7 @@ bool lista_inserir(Lista *l, int posicao, int elemento)
 
 bool lista_removerPosicao(Lista *l, int *saida, int posicao)
 {
-    if (l == NULL)
-        return false;
-    if (lista_vazia(l))
+    if (l == NULL || lista_vazia(l))
         return false;
     if (posicao >= l->qtd || posicao < 0)
         return false;
@@ -160,9 +158,7 @@ bool lista_removerPosicao(Lista *l, int *saida, int posicao)
 
 int lista_removerElemento(Lista *l, int elemento)
 {
-    if (l == NULL)
-        return 0;
-    if (lista_vazia(l))
+    if (l == NULL || lista_vazia(l))
         return 0;
 
     No *selecionado = l->inicio;
@@ -179,9 +175,7 @@ int lista_removerElemento(Lista *l, int elemento)
 
 bool lista_substituir(Lista *l, int posicao, int elemento)
 {
-    if (l == NULL)
-        return false;
-    if (lista_vazia(l))
+    if (l == NULL || lista_vazia(l))
         return false;
 
     No *selecionado = listaColetar(l, posicao);
@@ -195,9 +189,7 @@ bool lista_substituir(Lista *l, int posicao, int elemento)
 
 int lista_posicao(Lista *l, int elemento)
 {
-    if (l == NULL)
-        return -1;
-    if (lista_vazia(l))
+    if (l == NULL || lista_vazia(l))
         return -1;
 
     No *aux = l->inicio;
@@ -214,9 +206,7 @@ int lista_posicao(Lista *l, int elemento)
 
 bool lista_buscar(Lista *l, int posicao, TipoElemento *saida)
 {
-    if (l == NULL)
-        return false;
-    if (lista_vazia(l))
+    if (l == NULL || lista_vazia(l))
         return false;
 
     No *selecionado = listaColetar(l, posicao);
