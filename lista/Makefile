@@ -8,6 +8,11 @@ encadeada:
 	gcc main.c lista_encadeada.o -o execute
 	./execute
 
+encadeadaCS:
+	gcc -c lista_encadeada_sentinela.c
+	gcc main.c lista_encadeada_sentinela.o -o execute
+	./execute
+
 remove:
 	rm *.o
 	rm execute
