@@ -8,7 +8,7 @@ encadeada:
 	gcc main.c lista_encadeada.o -o execute
 	./execute
 
-encadeadaCS:
+encadeadacs:
 	gcc -c lista_encadeada_sentinela.c
 	gcc main.c lista_encadeada_sentinela.o -o execute
 	./execute
