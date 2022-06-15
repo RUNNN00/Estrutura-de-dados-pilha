@@ -176,7 +176,17 @@ int lista_removerElemento(Lista *l, TipoElemento elemento)
     return index;
 }
 
-bool lista_substituir(Lista *l, int posicao, TipoElemento elemento);
+bool lista_substituir(Lista *l, int posicao, TipoElemento elemento)
+{
+    No* selec = localizaNo(l, posicao);
+
+    if (selec == NULL)
+        return false;
+
+    selec->dado = elemento;
+    return true;
+}
+
 int lista_posicao(Lista *l, TipoElemento elemento)
 {
     No *aux = l->sentinela->prox;
